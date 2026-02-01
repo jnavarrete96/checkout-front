@@ -59,7 +59,7 @@ const SummaryPage = () => {
       return;
     }
 
-    const result = await dispatch(processCheckoutPayment({
+    await dispatch(processCheckoutPayment({
       transactionId: transaction.transactionId,
       cardData: savedCardData,
     }));
@@ -68,9 +68,7 @@ const SummaryPage = () => {
     localStorage.removeItem('temp-card-data');
 
     // Navegar a result independientemente del resultado
-    if (result.type.includes('processCheckoutPayment/')) {
-      navigate('/result');
-    }
+    navigate('/result');
   };
 
   return (
