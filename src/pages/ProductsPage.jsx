@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../store/slices/productsSlice';
-import { selectProduct } from '../store/slices/checkoutSlice';
+import { goToStep, selectProduct } from '../store/slices/checkoutSlice';
 import { ProductList } from '../components/features';
 
 const ProductsPage = () => {
@@ -17,6 +17,10 @@ const ProductsPage = () => {
   // Cargar productos al montar
   useEffect(() => {
     dispatch(fetchProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(goToStep(1));
   }, [dispatch]);
 
   // Seleccionar producto y navegar a checkout
