@@ -1,10 +1,12 @@
 /**
- * App.jsx - Componente principal
+ * App.jsx - Componente principal (refactorizado)
  */
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from './store/slices/productsSlice';
+import { selectProduct } from './store/slices/checkoutSlice';
+import { ProductList } from './components/features';
 
 function App() {
   const dispatch = useDispatch();
@@ -16,71 +18,66 @@ function App() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  // Handle product selection
+  const handleSelectProduct = (product) => {
+    dispatch(selectProduct(product));
+    console.log('Product selected:', product);
+    // TO DO: Navegar a checkout
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            E-Commerce Checkout
-          </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Step {currentStep} of 5
-          </p>
-        </header>
-
-        {/* Loading */}
-        {loading && (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-            <p className="mt-4 text-gray-600">Loading products...</p>
-          </div>
-        )}
-
-        {/* Error */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-800">Error: {error}</p>
-          </div>
-        )}
-
-        {/* Products list (temporal) */}
-        {!loading && !error && products.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <div 
-                key={product.id} 
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+      {/* Header - Responsive */}
+      <header className="bg-white shadow-sm sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+                E-Commerce Checkout
+              </h1>
+              <p className="mt-1 text-xs sm:text-sm text-gray-600">
+                Step {currentStep} of 5
+              </p>
+            </div>
+            
+            {/* Cart icon (placeholder) */}
+            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+              <svg 
+                className="w-6 h-6 text-gray-600" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
               >
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {product.name}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600">
-                  {product.description}
-                </p>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-2xl font-bold text-indigo-600">
-                    ${product.price.toLocaleString()}
-                  </span>
-                  <span className="text-sm text-gray-500">
-                    Stock: {product.stockQuantity}
-                  </span>
-                </div>
-                <button className="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">
-                  Select Product
-                </button>
-              </div>
-            ))}
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" 
+                />
+              </svg>
+            </button>
           </div>
-        )}
+        </div>
+      </header>
 
-        {/* No products */}
-        {!loading && !error && products.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-600">No products available</p>
-          </div>
-        )}
-      </div>
+      {/* Main Content - Responsive padding */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <ProductList 
+          products={products}
+          loading={loading}
+          error={error}
+          onSelectProduct={handleSelectProduct}
+        />
+      </main>
+
+      {/* Footer - Responsive */}
+      <footer className="bg-white border-t border-gray-200 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <p className="text-center text-xs sm:text-sm text-gray-600">
+            © 2026 E-Commerce Checkout. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
