@@ -31,12 +31,12 @@ const SummaryPage = () => {
 
   // Redirect si no hay transacción creada
   useEffect(() => {
-    if (!transaction || !selectedProduct) {
+    if (!transaction) {
       navigate('/');
     }
-  }, [transaction, selectedProduct, navigate]);
+  }, [transaction, navigate]);
 
-  if (!transaction || !selectedProduct) {
+  if (!transaction) {
     return null;
   }
 
@@ -59,13 +59,15 @@ const SummaryPage = () => {
       return;
     }
 
-    await dispatch(processCheckoutPayment({
+    const result = await dispatch(processCheckoutPayment({
       transactionId: transaction.transactionId,
       cardData: savedCardData,
     }));
 
     // Limpiar datos de tarjeta del localStorage
-    localStorage.removeItem('temp-card-data');
+    if (result.payload?.status === 'APPROVED') {
+      localStorage.removeItem('temp-card-data');
+    }
 
     // Navegar a result independientemente del resultado
     navigate('/result');

@@ -196,7 +196,11 @@ const checkoutSlice = createSlice({
       .addCase(processCheckoutPayment.fulfilled, (state, action) => {
         state.loading = false;
         state.paymentResult = action.payload;
-        state.currentStep = 5;  // Ir a Result
+        state.currentStep = 5;
+
+        if (state.transaction) {
+          state.transaction.status = action.payload.status;
+        }
       })
       .addCase(processCheckoutPayment.rejected, (state, action) => {
         state.loading = false;

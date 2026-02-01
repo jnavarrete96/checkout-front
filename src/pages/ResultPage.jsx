@@ -37,6 +37,7 @@ const ResultPage = () => {
   }, [paymentResult, selectedProduct, dispatch]);
 
   const handleBackToProducts = () => {
+    localStorage.removeItem('temp-card-data');
     dispatch(clearCheckout());
     navigate('/');
   };
@@ -266,7 +267,7 @@ const ResultPage = () => {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <Button 
-              onClick={() => navigate('/checkout')}
+              onClick={() => navigate('/summary')}
               variant="primary"
               fullWidth
             >
