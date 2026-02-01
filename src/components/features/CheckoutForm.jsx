@@ -148,6 +148,14 @@ const CheckoutForm = () => {
       return;
     }
 
+    localStorage.setItem('temp-card-data', JSON.stringify({
+        cardNumber: formData.cardNumber.replaceAll(/\s/g, ''),
+        cardExpMonth: formData.cardExpMonth,
+        cardExpYear: formData.cardExpYear,
+        cardCvc: formData.cardCvc,
+        cardHolder: formData.cardHolder,
+    }));
+
     // Guardar datos en Redux
     dispatch(setCustomerData({
       email: formData.customerEmail,
