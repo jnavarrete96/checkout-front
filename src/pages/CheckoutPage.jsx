@@ -4,14 +4,23 @@
  */
 
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import CheckoutForm from '../components/features/CheckoutForm';
 import { Card } from '../components/common';
+import { goToStep } from '../store/slices/checkoutSlice';
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const { selectedProduct } = useSelector((state) => state.checkout);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      dispatch(goToStep(2));
+    }
+  }, [selectedProduct, dispatch]);
 
   // Redirect si no hay producto seleccionado
   useEffect(() => {

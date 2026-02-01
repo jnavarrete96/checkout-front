@@ -19,13 +19,14 @@ const CheckoutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedProduct, loading } = useSelector((state) => state.checkout);
+  const { customerData, deliveryData } = useSelector((state) => state.checkout);
 
   // Form state
   const [formData, setFormData] = useState({
     // Customer
-    customerEmail: '',
-    customerFullName: '',
-    customerPhone: '',
+    customerEmail: customerData?.email || '',
+  customerFullName: customerData?.fullName || '',
+  customerPhone: customerData?.phone || '',
     
     // Card
     cardNumber: '',
@@ -35,12 +36,12 @@ const CheckoutForm = () => {
     cardHolder: '',
     
     // Delivery
-    deliveryFullName: '',
-    deliveryPhone: '',
-    deliveryAddress: '',
-    deliveryCity: '',
-    deliveryState: '',
-    deliveryPostalCode: '',
+    deliveryFullName: deliveryData?.fullName || '',
+    deliveryPhone: deliveryData?.phone || '',
+    deliveryAddress: deliveryData?.address || '',
+    deliveryCity: deliveryData?.city || '',
+    deliveryState: deliveryData?.state || '',
+    deliveryPostalCode: deliveryData?.postalCode || '',
   });
 
   const [errors, setErrors] = useState({});

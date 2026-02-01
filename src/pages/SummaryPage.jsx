@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { processCheckoutPayment } from '../store/slices/checkoutSlice';
+import { goToStep, processCheckoutPayment } from '../store/slices/checkoutSlice';
 import { Card, Button } from '../components/common';
 
 const SummaryPage = () => {
@@ -28,6 +28,11 @@ const SummaryPage = () => {
     return cardData ? JSON.parse(cardData) : null;
   });
 
+  useEffect(() => {
+    if (transaction) {
+      dispatch(goToStep(3));
+    }
+  }, [transaction, dispatch]);
 
   // Redirect si no hay transacción creada
   useEffect(() => {

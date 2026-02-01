@@ -5,7 +5,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { clearCheckout } from '../store/slices/checkoutSlice';
+import { clearCheckout, goToStep } from '../store/slices/checkoutSlice';
 import { updateProductStock } from '../store/slices/productsSlice';
 import { Card, Button } from '../components/common';
 
@@ -35,6 +35,12 @@ const ResultPage = () => {
       }));
     }
   }, [paymentResult, selectedProduct, dispatch]);
+
+  useEffect(() => {
+    if (paymentResult || error) {
+      dispatch(goToStep(5));
+    }
+  }, [paymentResult, error, dispatch]);
 
   const handleBackToProducts = () => {
     localStorage.removeItem('temp-card-data');
