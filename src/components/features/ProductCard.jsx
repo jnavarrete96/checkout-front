@@ -15,7 +15,7 @@ const ProductCard = ({ product, onSelect }) => {
   return (
     <Card hover className="flex flex-col h-full">
       {/* Image placeholder */}
-      <div className="relative w-full h-40 sm:h-48 bg-gradient-to-br from-indigo-100 to-indigo-200 rounded-lg mb-4 overflow-hidden">
+      <div className="relative w-full h-40 sm:h-48 bg-linear-to-br from-indigo-100 to-indigo-200 rounded-lg mb-4 overflow-hidden">
         {imageUrl ? (
           <img 
             src={imageUrl} 
